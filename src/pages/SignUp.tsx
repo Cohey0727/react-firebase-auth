@@ -1,4 +1,7 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import React, { useCallback, useState } from "react";
 import { firebase } from "../configs";
 
@@ -6,7 +9,18 @@ const SignUp = () => {
   const [loginInfo, setLoginInfo] = useState({ email: "", password: "" });
   const singUp = useCallback(async (email: string, password: string) => {
     try {
-      await createUserWithEmailAndPassword(firebase.auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        firebase.auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      if (!user.emailVerified) {
+        await sendEmailVerification(user);
+        alert("email verification sent to user");
+      } else {
+        alert("email is verified");
+      }
     } catch (error) {
       alert(error);
     }
