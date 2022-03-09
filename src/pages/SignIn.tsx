@@ -39,7 +39,7 @@ const SignIn = () => {
           setLoginInfo((info) => ({ ...info, [e.target.name]: e.target.value }))
         }
       />
-      <button onClick={handleClickSignIn}>singUp</button>
+      <button onClick={handleClickSignIn}>singIn</button>
     </div>
   );
 };
